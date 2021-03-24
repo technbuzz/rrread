@@ -1,0 +1,7 @@
+{
+  "name": "rrread",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
