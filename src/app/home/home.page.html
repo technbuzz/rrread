@@ -4,9 +4,9 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" lines="none">
   <ion-list>
-    <ion-item *ngFor="let read of readList">
+    <ion-item *ngFor="let read of readList | async">
       <ion-thumbnail slot="start">
         <img [src]="read.img" alt="">
       </ion-thumbnail>

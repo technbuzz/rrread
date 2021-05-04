@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
+import { AngularFirestore } from "@angular/fire/firestore";
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -7,36 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePage implements OnInit {
 
-  public readList: Readings[] = [];
-  constructor() {}
+  public readList: Observable<Readings[]>;
+  constructor(private afs: AngularFirestore) {}
 
   ngOnInit(): void {
-    this.readList = [
-      {
-        img: 'http://placehold.it/100x100',
-        title: 'Sami Birthday!',
-        description: 'Its my Birthday! 🎉',
-        date: 'July 27'
-      },
-      {
-        img: 'http://placehold.it/100x100',
-        title: 'Momina Birthday!',
-        description: 'Its my Birthday! 🎉',
-        date: 'August 21'
-      },
-      {
-        img: 'http://placehold.it/100x100',
-        title: 'Maryam Birthday!',
-        description: 'Its my Birthday! 🎉',
-        date: 'April 10'
-      },
-      {
-        img: 'http://placehold.it/100x100',
-        title: 'Meerab Birthday!',
-        description: 'Its my Birthday! 🎉',
-        date: 'September 18'
-      }
-    ]
+    this.readList = this.afs.collection<Readings>('readings').valueChanges()
   }
 
 }
