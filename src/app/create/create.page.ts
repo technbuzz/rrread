@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-create',
   templateUrl: './create.page.html',
@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 export class CreatePage implements OnInit {
   private id: string
   public createBookForm: FormGroup
-  constructor(private fb: FormBuilder, private afs: AngularFirestore, private route: ActivatedRoute) { 
+  constructor(private fb: FormBuilder, private afs: AngularFirestore, private route: ActivatedRoute, private router: Router) { 
     this.id = this.route.snapshot.params.id   
     this.createBookForm = this.fb.group({
      title: ['', Validators.compose([Validators.required])],
@@ -34,10 +34,12 @@ export class CreatePage implements OnInit {
   addParty(): void {
     console.log(this.createBookForm.value);
     if(this.id === 'new') {
-      this.afs.collection('readings').add(this.createBookForm.value)    
+      this.afs.collection('readings').add(this.createBookForm.value).then(_ => this.router.navigateByUrl(''))    
     } else {
-      this.afs.collection('readings').doc(this.id).update(this.createBookForm.value)
+      this.afs.collection('readings').doc(this.id).update(this.createBookForm.value).then(_ => this.router.navigateByUrl(''))    
 
     }
+
+
   }
 }

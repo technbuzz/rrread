@@ -13,7 +13,7 @@ export class HomePage implements OnInit {
   constructor(private afs: AngularFirestore) {}
 
   ngOnInit(): void {
-    this.readList = this.afs.collection<Book>('readings').valueChanges()
+    this.readList = this.afs.collection<Book>('readings').valueChanges({ idField: 'id'})
   }
 
 }

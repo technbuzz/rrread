@@ -6,7 +6,7 @@
 
 <ion-content [fullscreen]="true" lines="none">
   <ion-list>
-    <ion-item *ngFor="let read of readList | async">
+    <ion-item *ngFor="let read of readList | async" routerLink="/create/{{ read.id }}">
       <ion-thumbnail slot="start">
         <img [src]="read.img" alt="">
       </ion-thumbnail>
@@ -17,4 +17,10 @@
       </ion-label>
     </ion-item>
   </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/create/new">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
