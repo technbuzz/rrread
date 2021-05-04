@@ -10,8 +10,9 @@ const routes: Routes = [
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
-  },  {
-    path: 'create',
+  },
+  {
+    path: 'create/:id',
     loadChildren: () => import('./create/create.module').then( m => m.CreatePageModule)
   },
 
