@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>create</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form (ngSubmit)="addParty()" [formGroup]="createBookForm" novalidate>
+    <ion-item>
+      <ion-label position="stacked">Book Title</ion-label>
+      <ion-input
+        formControlName="title"
+        type="text"
+        placeholder="Whats the book name"
+      >
+
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Description</ion-label>
+      <ion-textarea
+        formControlName="description"
+      >
+      </ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Image</ion-label>
+      <ion-input
+        formControlName="img"
+        type="text"
+        placeholder="Paste the URL of your image here"
+      >
+
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Date</ion-label>
+      <ion-datetime
+        placeholder="Whats the book name"
+        displayFormat="MMMM DD YYYY"
+        formControlName="date"
+      >
+
+      </ion-datetime>
+    </ion-item>
+
+    <ion-button expand="block" type="submit">Save</ion-button>
+  </form>
+</ion-content>
