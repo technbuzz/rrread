@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-create',
   templateUrl: './create.page.html',
   styleUrls: ['./create.page.scss'],
 })
-export class CreatePage implements OnInit {
+export class CreatePage implements OnInit, OnDestroy {
   private id: string
   public createBookForm: FormGroup
+  public newEntry: Boolean = true
+  private subscription: Subscription = new Subscription()
   constructor(private fb: FormBuilder,private alertController: AlertController, private afs: AngularFirestore, private route: ActivatedRoute, private router: Router) { 
     this.id = this.route.snapshot.params.id   
     this.createBookForm = this.fb.group({
@@ -23,8 +26,8 @@ export class CreatePage implements OnInit {
 
   ngOnInit() {
     if(this.id !== 'new') {
-      
-      this.afs.doc(`readings/${this.id}`)
+      this.newEntry = false 
+      this.subscription = this.afs.doc(`readings/${this.id}`)
       .valueChanges()
       .subscribe(resp => {
         this.createBookForm.setValue(resp)
@@ -34,7 +37,7 @@ export class CreatePage implements OnInit {
 
   addParty(): void {
     console.log(this.createBookForm.value);
-    if(this.id === 'new') {
+    if(this.newEntry) {
       this.afs.collection('readings').add(this.createBookForm.value).then(_ => this.router.navigateByUrl(''))    
     } else {
       this.afs.collection('readings').doc(this.id).update(this.createBookForm.value).then(_ => this.router.navigateByUrl(''))    
@@ -54,6 +57,7 @@ export class CreatePage implements OnInit {
         {
           text: 'Delete',
           handler: () => {
+            this.subscription.unsubscribe()
             this.afs.collection('readings').doc(this.id).delete().then(() => {
               this.router.navigateByUrl('/')
             })
@@ -63,5 +67,19 @@ export class CreatePage implements OnInit {
     })
 
     await alert.present()
+  }
+
+  fake (): void {
+    if(this.newEntry) {
+      this.createBookForm.setValue({
+       title: 'Dummy Book',
+       description: 'Dummy Book Long descriptions',
+       img: 'https://picsum.photos/200/300',
+       date: 'July 21'
+      })
+    }
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe()
   }
 }
