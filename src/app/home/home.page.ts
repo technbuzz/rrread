@@ -1,39 +1,27 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { Book } from "../models/book";
-import { Observable, map, tap } from 'rxjs';
-import { addIcons } from 'ionicons'
-import { add } from 'ionicons/icons'
-import { Firestore, collection, collectionData } from '@angular/fire/firestore';
-import { IonRouterLink } from "@ionic/angular/standalone";
+import { Component, OnInit } from '@angular/core';
+import { addIcons } from 'ionicons';
+import { add } from 'ionicons/icons';
+
+import { AsyncPipe, DatePipe } from '@angular/common';
+import { IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonList, IonLoading, IonTitle, IonToolbar } from "@ionic/angular/standalone";
+import { FirebaseDatePipe } from '../shared/fbDate.pipe';
+import { BookListComponent } from './book-list/book-list.component';
+import { LoadingBookComponent } from './loading-book/loading-book.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
+  imports: [ FirebaseDatePipe, LoadingBookComponent, BookListComponent, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonLoading,  IonFab, IonFabButton, IonIcon, DatePipe, AsyncPipe, ],
+  standalone: true,
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  firestore = inject(Firestore)
-
-  public readList!: Observable<Book[]>;
   constructor() {
     addIcons({ add, })
   }
 
 
   ngOnInit(): void {
-    const readings = collection(this.firestore, 'readings')
-
-    this.readList = collectionData<Book>(readings, { idField: 'id' }).pipe(
-      // map((reading: Book[]) => readings.map(reading => ({...reading, data: this.handleDate(reading) }))),
-
-      tap(console.log)
-    )
-  }
-
-  handleDate({ date }: Book) {
-    console.log(date)
-    return date
-
   }
 
 }

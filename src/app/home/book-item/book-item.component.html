@@ -1,0 +1,10 @@
+<ion-item routerLink="../create/{{ book().id }}">
+  <ion-thumbnail slot="start">
+    <img [src]="book().img" alt="">
+  </ion-thumbnail>
+  <ion-label>
+    <h3>{{ book().title }}</h3>
+    <p>{{ book().description }}</p>
+    <p>{{ book().date | fbDate | date }}</p>
+  </ion-label>
+</ion-item>

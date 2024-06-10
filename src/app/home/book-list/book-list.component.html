@@ -1,0 +1,3 @@
+@for (read of readList | async; track $index) {
+  <app-book-item [book]="read"></app-book-item>
+}

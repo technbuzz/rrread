@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular/standalone';
 import { Subscription } from 'rxjs';
@@ -7,12 +7,16 @@ import { addIcons } from "ionicons";
 import { trash, add } from "ionicons/icons";
 import { Firestore, collection, collectionData, deleteDoc, doc, docData } from '@angular/fire/firestore';
 import { Book } from '../models/book';
+import { IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton, IonContent, IonItem, IonLabel, IonInput, IonTextarea, IonDatetime, IonButton, IonFab, IonFabButton, IonIcon } from "@ionic/angular/standalone";
 import { FirebaseDatePipe } from '../shared/fbDate.pipe';
 
 @Component({
   selector: 'app-create',
+  imports: [ ReactiveFormsModule, IonHeader, IonToolbar, IonTitle, IonButtons, IonBackButton, IonContent, IonItem, IonLabel, IonInput, IonTextarea, IonDatetime, IonButton, IonFab, IonFabButton, IonIcon, FirebaseDatePipe, ],
+  standalone: true,
   templateUrl: './create.page.html',
   styleUrls: ['./create.page.scss'],
+  providers: [FirebaseDatePipe]
 })
 export class CreatePage implements OnInit, OnDestroy {
   private id: string
@@ -41,8 +45,6 @@ export class CreatePage implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // const readingCol = collection(this.#firestore, `readings/${this.id}`)
-
     if (this.id !== 'new') {
       this.newEntry = false
       const docRef = doc(this.#firestore, `readings/${this.id}`)

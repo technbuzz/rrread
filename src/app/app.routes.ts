@@ -8,11 +8,11 @@ export const routes: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    loadComponent: () => import('./home/home.page').then(p => p.HomePage)
   },
   {
     path: 'create/:id',
-    loadChildren: () => import('./create/create.module').then( m => m.CreatePageModule)
+    loadComponent: () => import('./create/create.page').then( p => p.CreatePage)
   },
 
 ];
