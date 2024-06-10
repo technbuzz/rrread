@@ -6,14 +6,14 @@
 
 <ion-content [fullscreen]="true" lines="none">
   <ion-list>
-    <ion-item *ngFor="let read of readList | async" routerLink="/create/{{ read.id }}">
+    <ion-item *ngFor="let read of readList | async" routerLink="../create/{{ read.id }}">
       <ion-thumbnail slot="start">
         <img [src]="read.img" alt="">
       </ion-thumbnail>
       <ion-label>
         <h3>{{ read.title }}</h3>
         <p>{{ read.description }}</p>
-        <p>{{ read.date| date }}</p>
+        <p>{{ read.date | fbDate | date }}</p>
       </ion-label>
     </ion-item>
   </ion-list>

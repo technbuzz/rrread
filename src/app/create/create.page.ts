@@ -1,9 +1,12 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular/standalone';
 import { Subscription } from 'rxjs';
+import { addIcons } from "ionicons";
+import { trash, add } from "ionicons/icons";
+import { Firestore, collection, collectionData, doc, docData } from '@angular/fire/firestore';
+
 @Component({
   selector: 'app-create',
   templateUrl: './create.page.html',
@@ -14,35 +17,50 @@ export class CreatePage implements OnInit, OnDestroy {
   public createBookForm: UntypedFormGroup
   public newEntry: Boolean = true
   private subscription: Subscription = new Subscription()
-  constructor(private fb: UntypedFormBuilder,private alertController: AlertController, private afs: AngularFirestore, private route: ActivatedRoute, private router: Router) { 
-    this.id = this.route.snapshot.params.id   
+
+  #firestore = inject(Firestore)
+
+  constructor(
+    private fb: UntypedFormBuilder,
+    private alertController: AlertController,
+    private route: ActivatedRoute) {
+
+    this.id = this.route.snapshot.params['id']
     this.createBookForm = this.fb.group({
-     title: ['', Validators.compose([Validators.required])],
-     img: ['', Validators.compose([Validators.required])],
-     description: ['', Validators.compose([Validators.required])],
-     date: ['', Validators.compose([Validators.required])],
-   }) 
+      title: ['', Validators.compose([Validators.required])],
+      img: ['', Validators.compose([Validators.required])],
+      description: ['', Validators.compose([Validators.required])],
+      date: ['', Validators.compose([Validators.required])],
+    })
+    addIcons({ trash, add });
   }
 
   ngOnInit() {
-    if(this.id !== 'new') {
-      this.newEntry = false 
-      this.subscription = this.afs.doc(`readings/${this.id}`)
-      .valueChanges()
-      .subscribe(resp => {
-        this.createBookForm.setValue(resp)
-      })
-    } 
+    // const readingCol = collection(this.#firestore, `readings/${this.id}`)
+    const readingCol = collection(this.#firestore, 'readings')
+
+    if (this.id !== 'new') {
+      this.newEntry = false
+      const docRef = doc(this.#firestore, `readings/${this.id}`)
+      this.subscription = docData(docRef).pipe(
+      )
+
+        // @ts-ignore
+        .subscribe(resp => {
+          console.log(resp)
+          this.createBookForm.patchValue(resp)
+        })
+    }
   }
 
   addParty(): void {
     console.log(this.createBookForm.value);
-    if(this.newEntry) {
-      this.afs.collection('readings').add(this.createBookForm.value).then(_ => this.router.navigateByUrl(''))    
-    } else {
-      this.afs.collection('readings').doc(this.id).update(this.createBookForm.value).then(_ => this.router.navigateByUrl(''))    
-
-    }
+    // if (this.newEntry) {
+    //     this.afs.collection('readings').add(this.createBookForm.value).then(_ => this.router.navigateByUrl(''))
+    // } else {
+    //     this.afs.collection('readings').doc(this.id).update(this.createBookForm.value).then(_ => this.router.navigateByUrl(''))
+    //
+    // }
   }
 
   async delete(): Promise<void> {
@@ -58,9 +76,9 @@ export class CreatePage implements OnInit, OnDestroy {
           text: 'Delete',
           handler: () => {
             this.subscription.unsubscribe()
-            this.afs.collection('readings').doc(this.id).delete().then(() => {
-              this.router.navigateByUrl('/')
-            })
+            // this.afs.collection('readings').doc(this.id).delete().then(() => {
+            //     this.router.navigateByUrl('/')
+            // })
           }
         }
       ]
@@ -69,13 +87,13 @@ export class CreatePage implements OnInit, OnDestroy {
     await alert.present()
   }
 
-  fake (): void {
-    if(this.newEntry) {
+  fake(): void {
+    if (this.newEntry) {
       this.createBookForm.setValue({
-       title: 'Dummy Book',
-       description: 'Dummy Book Long descriptions',
-       img: 'https://picsum.photos/200/300',
-       date: 'July 21'
+        title: 'Dummy Book',
+        description: 'Dummy Book Long descriptions',
+        img: 'https://picsum.photos/200/300',
+        date: 'July 21'
       })
     }
   }
