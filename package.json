@@ -15,7 +15,6 @@
   "dependencies": {
     "@angular/common": "^18.0.2",
     "@angular/core": "^18.0.2",
-    "@angular/fire": "^7.6.1",
     "@angular/forms": "^18.0.2",
     "@angular/platform-browser": "^18.0.2",
     "@angular/platform-browser-dynamic": "^18.0.2",
@@ -24,7 +23,6 @@
     "@capacitor/android": "^2.4.7",
     "@capacitor/core": "2.4.7",
     "@ionic/angular": "^5.5.2",
-    "firebase": "^8.4.3",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.14.7"
@@ -54,7 +52,6 @@
     "tslint": "~6.1.0",
     "typescript": "~5.4.5",
     "@angular-devkit/architect": "0.1800.3",
-    "firebase-tools": "^12.9.1",
     "fuzzy": "^0.1.3",
     "inquirer": "^6.2.2",
     "inquirer-autocomplete-prompt": "^1.0.1",
