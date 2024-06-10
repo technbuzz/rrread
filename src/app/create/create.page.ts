@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
@@ -11,10 +11,10 @@ import { Subscription } from 'rxjs';
 })
 export class CreatePage implements OnInit, OnDestroy {
   private id: string
-  public createBookForm: FormGroup
+  public createBookForm: UntypedFormGroup
   public newEntry: Boolean = true
   private subscription: Subscription = new Subscription()
-  constructor(private fb: FormBuilder,private alertController: AlertController, private afs: AngularFirestore, private route: ActivatedRoute, private router: Router) { 
+  constructor(private fb: UntypedFormBuilder,private alertController: AlertController, private afs: AngularFirestore, private route: ActivatedRoute, private router: Router) { 
     this.id = this.route.snapshot.params.id   
     this.createBookForm = this.fb.group({
      title: ['', Validators.compose([Validators.required])],
