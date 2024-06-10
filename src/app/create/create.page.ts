@@ -5,7 +5,9 @@ import { AlertController } from '@ionic/angular/standalone';
 import { Subscription } from 'rxjs';
 import { addIcons } from "ionicons";
 import { trash, add } from "ionicons/icons";
-import { Firestore, collection, collectionData, doc, docData } from '@angular/fire/firestore';
+import { Firestore, collection, collectionData, deleteDoc, doc, docData } from '@angular/fire/firestore';
+import { Book } from '../models/book';
+import { FirebaseDatePipe } from '../shared/fbDate.pipe';
 
 @Component({
   selector: 'app-create',
@@ -18,10 +20,13 @@ export class CreatePage implements OnInit, OnDestroy {
   public newEntry: Boolean = true
   private subscription: Subscription = new Subscription()
 
+  router = inject(Router)
   #firestore = inject(Firestore)
+  readingsCol = collection(this.#firestore, 'readings')
 
   constructor(
     private fb: UntypedFormBuilder,
+    private fbDate: FirebaseDatePipe,
     private alertController: AlertController,
     private route: ActivatedRoute) {
 
@@ -37,18 +42,20 @@ export class CreatePage implements OnInit, OnDestroy {
 
   ngOnInit() {
     // const readingCol = collection(this.#firestore, `readings/${this.id}`)
-    const readingCol = collection(this.#firestore, 'readings')
 
     if (this.id !== 'new') {
       this.newEntry = false
       const docRef = doc(this.#firestore, `readings/${this.id}`)
-      this.subscription = docData(docRef).pipe(
+      this.subscription = docData<Book>(docRef).pipe(
       )
 
         // @ts-ignore
         .subscribe(resp => {
           console.log(resp)
-          this.createBookForm.patchValue(resp)
+          
+
+          const data = {...resp, date: this.fbDate.transform(resp.date) };
+          this.createBookForm.patchValue(data)
         })
     }
   }
@@ -75,10 +82,11 @@ export class CreatePage implements OnInit, OnDestroy {
         {
           text: 'Delete',
           handler: () => {
-            this.subscription.unsubscribe()
-            // this.afs.collection('readings').doc(this.id).delete().then(() => {
-            //     this.router.navigateByUrl('/')
-            // })
+            const docRef = doc(this.#firestore, `readings/${this.id}`)
+            deleteDoc(docRef).then(() => {
+              this.subscription.unsubscribe()
+              this.router.navigateByUrl('/')
+            })
           }
         }
       ]
