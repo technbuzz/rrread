@@ -5,20 +5,17 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" lines="none">
-  <ion-loading  message="Loading..." spinner="circles" />
-  <ion-list>
-    @defer {
-      <app-book-list />
-    } @loading(minimum 1s) {
+  @defer {
+    <app-book-list />
+  } @loading(minimum 1s) {
 
-      <app-loading-book></app-loading-book>
+    <app-loading-book></app-loading-book>
 
-    }
+  }
     
-  </ion-list>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button routerLink="/create/new">
+    <ion-fab-button routerLink="../create/new">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

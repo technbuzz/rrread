@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { addIcons } from 'ionicons';
 import { add } from 'ionicons/icons';
 
-import { AsyncPipe, DatePipe } from '@angular/common';
-import { IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonList, IonLoading, IonTitle, IonToolbar } from "@ionic/angular/standalone";
+import { IonContent, IonFab, IonFabButton, IonHeader, IonIcon, IonTitle, IonToolbar } from "@ionic/angular/standalone";
 import { FirebaseDatePipe } from '../shared/fbDate.pipe';
 import { BookListComponent } from './book-list/book-list.component';
 import { LoadingBookComponent } from './loading-book/loading-book.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
-  imports: [ FirebaseDatePipe, LoadingBookComponent, BookListComponent, IonHeader, IonToolbar, IonTitle, IonContent, IonList, IonLoading,  IonFab, IonFabButton, IonIcon, DatePipe, AsyncPipe, ],
+  imports: [ FirebaseDatePipe, RouterLink, LoadingBookComponent, BookListComponent, IonHeader, IonToolbar, IonTitle, IonContent, IonFab, IonFabButton, IonIcon],
   standalone: true,
   styleUrls: ['home.page.scss'],
 })
