@@ -1,0 +1,6 @@
+allowBuilds:
+  esbuild: true
+  lmdb: false
+  msgpackr-extract: false
+  nice-napi: false
+  protobufjs: false

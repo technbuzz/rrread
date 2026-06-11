@@ -1,4 +1,9 @@
-@for (read of readList | async; track $index) {
-  <app-book-item [book]="read"></app-book-item>
+@if(readList$ | async; as readList) {
+
+  @for (read of readList; track $index) {
+    <app-book-item [book]="read"></app-book-item>
+  }
+} @else {
+
+    <app-loading-book></app-loading-book>
 }
-  <!-- <ion-loading  message="Loading..." spinner="circles" /> -->
