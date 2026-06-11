@@ -1,10 +1,14 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
+import { BookItem } from './BookItem';
 
-const App  = () => {
+const App = () => {
   return (
     <div>
-      <h1>RRRead</h1>
+      <header className='shadow-md p-4'>
+        <h1>RRRead</h1>
+      </header>
+      <BookItem />
     </div>
   );
 };
