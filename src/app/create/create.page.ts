@@ -48,6 +48,7 @@ export class CreatePage implements OnInit, OnDestroy {
     if (this.id !== 'new') {
       this.newEntry = false
       const docRef = doc(this.#firestore, `readings/${this.id}`)
+        // @ts-ignore
       this.subscription = docData<Book>(docRef).pipe(
       )
 
@@ -56,6 +57,7 @@ export class CreatePage implements OnInit, OnDestroy {
           console.log(resp)
           
 
+        // @ts-ignore
           const data = {...resp, date: this.fbDate.transform(resp.date) };
           this.createBookForm.patchValue(data)
         })

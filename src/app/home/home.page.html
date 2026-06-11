@@ -7,9 +7,9 @@
 <ion-content [fullscreen]="true" lines="none">
   @defer {
     <app-book-list />
-  } @loading(minimum 1s) {
+  } @loading(minimum 300ms) {
 
-    <app-loading-book></app-loading-book>
+    <pre> Loading books ... </pre>
 
   }
     
