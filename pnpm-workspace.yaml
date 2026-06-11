@@ -4,3 +4,6 @@ allowBuilds:
   msgpackr-extract: false
   nice-napi: false
   protobufjs: false
+
+packages:
+  - "apps/*"
