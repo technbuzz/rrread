@@ -1,15 +1,13 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import { BookItem } from './BookItem';
+import { routeTree } from './routeTree.gen'
+import { createRouter, RouterProvider } from '@tanstack/react-router';
+
+const router = createRouter({ routeTree })
 
 const App = () => {
   return (
-    <div>
-      <header className='shadow-md p-4'>
-        <h1>RRRead</h1>
-      </header>
-      <BookItem />
-    </div>
+    <RouterProvider router={router} />
   );
 };
 
